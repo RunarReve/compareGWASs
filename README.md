@@ -22,8 +22,12 @@ mergegwas.sh
 manPlot.r
    R script that makes manhattan plot from a assoc file 
 
+mergePheno.sh 
+   Merges multiple phenotype files for plink
+   how to run: ./mergePheno.sh out  pheno1 pheno2 ....phenoN
 
 spearmanList.py 
    python program to compare two similar lists with different set of values 
    ignores the header for both files
    how to run: python spearmanList.py file1 file2 column of values
+
