@@ -22,3 +22,7 @@ mergegwas.sh
 manPlot.r
    R script that makes manhattan plot from a assoc file 
 
+
+spearmanList.py 
+   python program to compare two similar lists with different set of values 
+   how to run: python spearmanList.py file1 file2 column of values

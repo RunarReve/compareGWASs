@@ -1,7 +1,7 @@
 #outputs
-output/
+output/*
 
 temp/
 
 *.log
-spearmanLog/
+spearmanLog/*
