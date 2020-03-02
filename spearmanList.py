@@ -24,7 +24,7 @@ def main():
       if head == 0:
          head = 1
          continue
-      G1.append(float(sline[8]))
+      G1.append(float(sline[col]))
    
    head = 0
    G2 = []
@@ -33,19 +33,19 @@ def main():
       if head == 0:
          head =1 
          continue
-      G2.append(float(sline[8]))
+      G2.append(float(sline[col]))
 
    corr = stats.spearmanr(G1, G2)
    print(corr)
 
    #Output file
-   sG1 = sys.argv[1].split('/')
-   out = "spearmanLog/" + sG1[-1]
-   sG2 = sys.argv[2].split('/')
+   sG1 = sys.argv[1].split('/')[-1].split('.')[0]
+   out = "spearmanLog/" + sG1 + ".corr"
+   sG2 = sys.argv[2].split('/')[-1].split('.')[0]
 
    outfile = open(out, 'a')
-   outfile.write(sG1[-1] + '_' + sG2[-1] + '\tcorrelation: ' + str(corr[0])  + '\tPval: ' + str(corr[1])+ '\n')      
-   print(sG1[-1] + '_' + sG2[-1] + '\tcorrelation: ' + str(corr[0])  + '\tPval: ' + str(corr[1])+ '\n')
+   outfile.write(sG1 + '_' + sG2 + '\tcorrelation: ' + str(corr[0])  + '\tPval: ' + str(corr[1])+ '\n')      
+   print(sG1 + '_' + sG2 + '\tcorrelation: ' + str(corr[0])  + '\tPval: ' + str(corr[1])+ '\n')
 
 if __name__ == "__main__":
    main()

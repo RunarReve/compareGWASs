@@ -25,4 +25,5 @@ manPlot.r
 
 spearmanList.py 
    python program to compare two similar lists with different set of values 
+   ignores the header for both files
    how to run: python spearmanList.py file1 file2 column of values
