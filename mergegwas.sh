@@ -1,6 +1,8 @@
 #!/bin/sh
 #Script to take in a ICD code, extract HPO for that ICD, and then merge these together
 #For now it will merge HPO with highest, lowest, and some sort of avarege P value
+#argv[1]   output
+#argv[2++] the direction to all we want to merge 
 
 echo "${1}"
 check=$(grep "${1}" ../HPO2ICD | awk '{print $1}')
@@ -21,10 +23,9 @@ sort -k3 -g merged/${1}low.assoc.log > merged/${1}low.log
 rm merged/${1}low.assoc.log
 
 #Make manhattan plots of the newly merged gwas
-rscripts="/encrypted/e3001/runar/genome/plinkGeno/rScripts"
 typeTitle="MergedHPO"
 
-module load R
+module load R # For running on our cluster
 
 lowestPVal=$(awk '{if(m== nulll || m > $9 && $9 != 0) {m = $9}} END{print m}' merged/${1}avr.assoc)
 echo "${lowestPVal}"
@@ -32,7 +33,7 @@ HPO=$(sort -k9 -g merged/${1}avr.assoc | head -2 | tail -1 | awk '{print $11}')
 echo "${HPO}"
 grep "${HPO}" merged/${1}avr.log | awk '{print $1}' > merged/${1}avr.list
 
-Rscript ${rscripts}/manPlotPNGhigh.r "${typeTitle}_AVR:${1}      Highest affect HPO: ${HPO}" merged/${1}avr.assoc ${lowestPVal} merged/${1}avr.list
+Rscript manPlot.r "${typeTitle}_AVR:${1}      Highest affect HPO: ${HPO}" merged/${1}avr.assoc ${lowestPVal} merged/${1}avr.list
 
 
 lowestPVal=$(awk '{if(m== nulll || m > $9 && $9 != 0) {m = $9}} END{print m}' merged/${1}high.assoc)
@@ -40,7 +41,7 @@ echo "${lowestPVal}"
 HPO=$(sort -k9 -g merged/${1}high.assoc | head -2 | tail -1 | awk '{print $11}')
 echo "${HPO}"
 grep "${HPO}" merged/${1}high.log | awk '{print $1}' > merged/${1}high.list
-Rscript ${rscripts}/manPlotPNGhigh.r "${typeTitle}_HIGH:${1}      Highest affect HPO: ${HPO}" merged/${1}high.assoc ${lowestPVal} merged/${1}high.list 
+Rscript manPlot.r "${typeTitle}_HIGH:${1}      Highest affect HPO: ${HPO}" merged/${1}high.assoc ${lowestPVal} merged/${1}high.list 
 
 
 lowestPVal=$(awk '{if(m== nulll || m > $9 && $9 != 0) {m = $9}} END{print m}' merged/${1}low.assoc)
@@ -48,5 +49,5 @@ echo "${lowestPVal}"
 HPO=$(sort -k9 -g merged/${1}low.assoc |head -2 | tail -1 | awk '{print $11}')
 echo "${HPO}" 
 grep "${HPO}" merged/${1}low.log | awk '{print $1}' > merged/${1}low.list
-Rscript ${rscripts}/manPlotPNGhigh.r "${typeTitle}_LOW:${1}      Highest affect HPO: ${HPO}" merged/${1}low.assoc ${lowestPVal} merged/${1}low.list
+Rscript manPlot.r "${typeTitle}_LOW:${1}      Highest affect HPO: ${HPO}" merged/${1}low.assoc ${lowestPVal} merged/${1}low.list
 
