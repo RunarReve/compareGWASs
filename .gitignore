@@ -4,4 +4,7 @@ output/*
 temp/
 
 *.log
-spearmanLog/*
+
+
+sprmanfull/*
+sprmanOvP/*
