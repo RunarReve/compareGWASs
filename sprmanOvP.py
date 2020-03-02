@@ -14,7 +14,7 @@ def main():
       print("List1, List2, Column of value to compare, and exponent P-value")
       sys.exit()
    if(sys.argv[1] == sys.argv[2]):#Check if ICDs are the same
-      outPrint(1,0,0)
+      outPrint(1,0,0,0,1)
       sys.exit()
   
    col = int(sys.argv[3])
@@ -52,28 +52,33 @@ def main():
       G2.append([sline[1], x])
 
    if(G1C == 0 or G2C == 0): #If one of the diseases do not have any variants over P...
-      outPrint(0,0,G1C+G2C) #...print as no simmilarity...
+      outPrint(0,0,G1C+G2C,0,0) #...print as no simmilarity...
       sys.exit() # .. then quit
 
    G1N = []
    G2N = []
+   overlap=0
    #Filter out all vars where both are set to 0 
    for i in range(0, len(G1)):
-      if(G1[i][1] != G2[i][1]):
+      if(G1[i][1] != 0 or G2[i][1] != 0):
          G1N.append(G1[i][1])
          G2N.append(G2[i][1])
+         if(G1[i][1] != 0 and G2[i][1] != 0):
+            overlap += 1 #count where both are over P
 
+   jaccard = overlap/len(G1N)  
    corr = stats.spearmanr(G1N, G2N)
-   outPrint(corr[0], corr[1], len(G1N))
+   outPrint(corr[0], corr[1], len(G1N), overlap, jaccard)
 
-def outPrint(corr, Pv, lengt):
+def outPrint(corr, Pv, lengt,  overlap, jac):
    sG1 = sys.argv[1].split('/')[-1].split('.')[0]
    sG2 = sys.argv[2].split('/')[-1].split('.')[0] 
    out = "sprmanOvP/"+sys.argv[4] + '/' + sG1
-   #print(sG1[-3]+'_'+sG2[-3]+'\tcorrelation: '+str(corr)+'\tPval: '+str(Pv)+'\tnumb:\t'+str(lengt))
    outfile = open(out, 'a')
-   outfile.write(sG1+'_'+sG2+'\tcorrelation: ' + str(corr)+'\tPval: '+str(Pv)+'\tnumb:\t'+str(lengt)+'\n')      
-   print(sG1+'_'+sG2+'\tcorrelation: ' + str(corr)+'\tPval: '+str(Pv)+'\tnumb:\t'+str(lengt)+'\n')
+   out = sG1+'_'+sG2+' Corr: '+str(corr)+' P: '+str(Pv)+' overlap: '+str(overlap)+' numb: '+str(lengt)+' jaccard: '+str(jac)+'\n'
+   #outfile.write(sG1+'_'+sG2+'\tCorr: '+str(corr)+'\tP: '+str(Pv)+'\toverlap:\t'+overlap + 'numb:\t'+str(lengt)+'\tjaccard: \t'+jacc+'\n')      
+   outfile.write(out)      
+   print(out)      
 
 if __name__ == "__main__":
    main()
