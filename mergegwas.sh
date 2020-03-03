@@ -18,7 +18,7 @@ manhat(){
 	echo "${hi}"
 	grep "${hi}" ${1} | awk '{print $2}' > ${1}.list
 	
- 	Rscript manPlot.r "${typeTitle}_AVR:${1}      Highest affect child: ${hi}" ${1} ${lowestPVal} ${1}.list
+ 	#Rscript manPlot.r "${typeTitle}_AVR:${1}      Highest affect child: ${hi}" ${1} ${lowestPVal} ${1}.list
 }
 
 list=""

@@ -40,8 +40,9 @@ def main():
 
    #Output file
    sG1 = sys.argv[1].split('/')[-1].split('.')[0]
-   out = "spearmanLog/" + sG1 + ".corr"
+   out = "sprmanfull/" + sG1 + ".corr"
    sG2 = sys.argv[2].split('/')[-1].split('.')[0]
+   print(sys.argv[2] + ' ' + sG2)
 
    outfile = open(out, 'a')
    outfile.write(sG1 + '_' + sG2 + '\tcorrelation: ' + str(corr[0])  + '\tPval: ' + str(corr[1])+ '\n')      

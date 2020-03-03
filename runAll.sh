@@ -12,9 +12,12 @@ for each in "$@"; do
 done
 echo "${child}"
 
-#./mergegwas.sh ${1}.me ${child}
+out=$(echo "${1}" | sed -e 's/\./ /g' | awk '{print $1}')
+echo "${out}"
+./mergegwas.sh ${out}merg ${child}
 
 for i in av hi lo; do
-   python sprmanfull.py ${1} ${1}.me${i} 8
-   python sprmanfull.py ${1} ${1}.me${i} 8 5
+   python sprmanfull.py ${1} ${out}merg${i} 8
+   python sprmanOvP.py  ${1} ${out}merg${i} 8 5
+   exit
 done 
