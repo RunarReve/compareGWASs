@@ -16,7 +16,7 @@ def main():
       sys.exit()
    table =[[] for _ in range(SNP)]
    ID = sys.argv[3]
-   infile = open("output/" + ID + "/" + ID +short + "/" + ID + short + ".assoc" , 'r')
+   infile = open(ID , 'r')
    for line in infile: #First GWAS
       sline = line.split()
       if sline[0] == 'CHR': #Header
@@ -26,27 +26,22 @@ def main():
    #Loop through the rest of the GWAS
    for i in range(4, len(sys.argv)):
       ID = sys.argv[i]
-      if (os.path.exists("output/" + ID + "/" + ID +short + "/" + ID + short + ".assoc"))==False:
-         print("File: " +ID+ " does not exist")
+      if (os.path.exists(ID))==False:
+         print("File: "+ID+" does not exist")
          continue
-      infile = open("output/" + ID + "/" + ID +short + "/" + ID + short + ".assoc" , 'r')
-      print (sys.argv[i] + ' ' + str(i) + ' out of ' + str(len(sys.argv)-1))
-      p = 0
+      infile = open(ID, 'r')
+      print (sys.argv[i] + ' ' + str(i-1) + ' out of ' + str(len(sys.argv)-2))
       for line in infile:
-         p = p+1
-         if (p%100000) == 0:
-            print (p)
          sline = line.split()
          if sline[0] == 'CHR':
             continue
          merge(table, line, ID)
       infile.close()
 
-   #Output the merged GWAS
    #Loop through one last time to extract in the same format              
-   infile = open("output/" + ID + "/" + ID +short + "/" + ID + short + ".assoc" , 'r')
-   outfile = open("merged/" + sys.argv[1],'w')
-   outlog  = open("merged/" + sys.argv[1] + ".log",'w')
+   infile  = open(ID, 'r')
+   outfile = open(sys.argv[1],'w')
+   outlog  = open(sys.argv[1]+".log",'w')
    for line in infile:
       sline = line.split()
       if sline[0] == 'CHR':
@@ -59,7 +54,6 @@ def main():
 
 
 #----FUNC----
-
 def operator(val1, val2):
    if sys.argv[2] == 'high':
       if val1 > val2 : return val1  
@@ -100,7 +94,6 @@ def merge(table, line, HPO):
                table[key][i][-1] = sline[8]
            
 
-
 def extract(table, line):
    sline = line.split()
    key = hash_fun(sline[2])
@@ -109,19 +102,14 @@ def extract(table, line):
       if each[2] == sline[2]: #Check that location is the same
          if each[0] == sline[0]: #Check if its the same chromosone 
             if sys.argv[2] == 'avr':
-               if each[1] == 'rs10401590':
-                  print(each)
                numPuts = len(sys.argv) - 3
                each[8] = str(float(each[8])/numPuts)
-               if each[1] == 'rs10401590':
-                  print (each)
             return "\t".join(each)
    return 2
 
+
 def hash_fun(x):
    return int(x)%SNP
-
-#------------
 
 
 if __name__ == "__main__":
