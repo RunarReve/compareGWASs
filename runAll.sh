@@ -19,5 +19,6 @@ echo "${out}"
 for i in av hi lo; do
    python sprmanfull.py ${1} ${out}merg${i} 8
    python sprmanOvP.py  ${1} ${out}merg${i} 8 5
+   ./sprmanTopN.sh      ${1} ${out}merg${i} 8 100
    exit
 done 

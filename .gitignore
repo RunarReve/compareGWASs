@@ -4,7 +4,9 @@ output/*
 temp/
 
 *.log
+mytest.sh
 
 
 sprmanfull/*
 sprmanOvP/*
+sprmanTopN/*
