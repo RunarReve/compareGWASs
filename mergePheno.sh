@@ -28,7 +28,7 @@ mv ${out}pheooO ${out}phe
 cat ${out}phe | awk '{if($3 == "2"){print $1}}' | wc -l
 
 #Run Plink, make sure plink is installed
-plink --bfile ${bfile} --assoc counts ${plinkSet} --pheno ${out}phe --out ${out}
+#plink --bfile ${bfile} --assoc counts ${plinkSet} --pheno ${out}phe --out ${out}
 
 echo " "
 echo " " 
@@ -42,9 +42,6 @@ echo " "
 lowestPVal=$(awk '{if(m== nulll || m > $9 && $9 != 0) {m = $9}} END{print m}' $1)
 echo "${lowestPVal}"
 typeTitle="Remade GWAS with children"
-hi=$(cat ${out}.assoc | sort -k9 -g | head -2 | tail -1 | awk '{print $11}'| sed -e 's/\// /g' | awk '{print $NF}'  | sed -e 's/\./ /g' | awk '{print $1}')
-echo "${hi}"
-grep "${hi}" ${out}.assoc | awk '{print $2}' > ${out}.list
 
-Rscript manPlot.r "${typeTitle}:${out}      Highest affect child: ${hi}" ${out}.assoc ${lowestPVal} ${out}.list
+Rscript manPlot.r "${typeTitle}:${out}" ${out}.assoc ${lowestPVal} ${out}.list
 
