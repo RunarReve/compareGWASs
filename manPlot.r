@@ -16,22 +16,24 @@ location <- args[2]
 #Tell R that output should be .png 
 png(paste(location, ".png", sep=""), width = 900 , height = 900,  res = 90)
 #Load in the table to
+theTable <- read.table(location, header = TRUE) 
 
 
 #Setting the y so no error of exeeding the ylim
 y <-round(-log10(as.double(args[3]))) + 1
 
+#Check if the user has inputted a list file: args[4]
 if (is.na(args[4])){
    print("Using a highlight list")
-   theTable <- read.table(location, header = TRUE) 
+ 
    loclist <- args[4]  #The location of the SNP list of what we want to highlight
    listOfSNPs <- read.csv(loclist, sep='\n', header = FALSE)
    highli <- as.character(listOfSNPs$V1)
 
-   #Plot the table into (X=Chromosone possition, Y=log P value)
+   #Plot the plot
    manhattan(theTable, annotatePval = 0.01, main = title,highlight = highli, ylim = c(0, y))
 }else{
    print("No use of highlight list")
-   theTable <- read.table(location, header = TRUE) 
+   #Plot the plot
    manhattan(theTable, annotatePval = 0.01, main = title, ylim = c(0, y))
 }
