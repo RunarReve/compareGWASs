@@ -9,4 +9,5 @@ mytest.sh
 
 sprmanfull/*
 sprmanOvP/*
-sprmanTopN/*
+sprmanTopN/*/
+
