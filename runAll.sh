@@ -3,6 +3,9 @@
 #argv[1] main comparison to
 #argv[2+] files to merge and compare to $1 
 
+#Try to make directories to set things 
+mkdir -p sprmanfull sprmanOvP sprmanTopN plots
+
 child=""
 for each in "$@"; do
    if [ "${each}" == "${1}" ]; then  
